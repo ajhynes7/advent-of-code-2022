@@ -14,8 +14,9 @@ function count_calories(file)
 end
 
 file = open("data/01.txt")
-calories = count_calories(file)
-println("Part 1: ", maximum(calories))
 
+calories = count_calories(file)
 sort!(calories, rev=true)
+
+println("Part 1: ", calories[1])
 println("Part 2: ", sum(calories[1:3]))
