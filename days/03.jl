@@ -47,10 +47,9 @@ end
 
 file_name = "data/03.txt"
 
-file = open(file_name)
+file = open(file_name, "r")
 println("Part 1: ", part_1(file))
-close(file)
 
-file = open("data/03.txt")
+seekstart(file)
 println("Part 2: ", part_2(file))
 close(file)
