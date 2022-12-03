@@ -1,3 +1,12 @@
+function compute_value(character)
+    if isuppercase(character)
+        value = Int(lowercase(character)) - 96 + 26
+    else
+        value = Int(character) - 96
+    end
+    return value
+end
+
 function part_1(file)
 
     total = 0
@@ -11,13 +20,7 @@ function part_1(file)
         intersection = intersect(compartment_1, compartment_2)
         character = first(intersection)
 
-        if isuppercase(character)
-            value = Int(lowercase(character)) - 96 + 26
-        else
-            value = Int(character) - 96
-        end
-
-        total += value
+        total += compute_value(character)
     end
 
     return total
@@ -42,14 +45,7 @@ function part_2(file)
             intersection = intersect(set_1, set_2, set_3)
             character = first(intersection)
 
-
-            if isuppercase(character)
-                value = Int(lowercase(character)) - 96 + 26
-            else
-                value = Int(character) - 96
-            end
-
-            total += value
+            total += compute_value(character)
             group = []
         end
 
