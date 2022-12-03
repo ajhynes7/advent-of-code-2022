@@ -45,9 +45,12 @@ function part_2(file)
     return total
 end
 
+file_name = "data/03.txt"
 
-file = open("data/03.txt")
+file = open(file_name)
 println("Part 1: ", part_1(file))
+close(file)
 
 file = open("data/03.txt")
 println("Part 2: ", part_2(file))
+close(file)
