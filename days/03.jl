@@ -28,29 +28,20 @@ end
 
 
 function part_2(file)
-
     total = 0
     group = []
 
     for line in readlines(file)
-
         push!(group, line)
 
         if length(group) == 3
-
-            set_1 = Set(group[1])
-            set_2 = Set(group[2])
-            set_3 = Set(group[3])
-
-            intersection = intersect(set_1, set_2, set_3)
+            intersection = intersect(group...)
             character = first(intersection)
 
             total += compute_value(character)
             group = []
         end
-
     end
-
     return total
 end
 
