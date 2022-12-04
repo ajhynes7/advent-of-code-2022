@@ -7,9 +7,9 @@ function compute_value(character)
     return value
 end
 
-function part_1(file)
-
-    total = 0
+function compute_totals(file)
+    total_1, total_2 = 0, 0
+    group = []
 
     for line in readlines(file)
         halfway = Int(length(line) / 2)
@@ -20,36 +20,27 @@ function part_1(file)
         intersection = intersect(compartment_1, compartment_2)
         character = first(intersection)
 
-        total += compute_value(character)
-    end
+        total_1 += compute_value(character)
 
-    return total
-end
-
-
-function part_2(file)
-    total = 0
-    group = []
-
-    for line in readlines(file)
         push!(group, line)
 
         if length(group) == 3
             intersection = intersect(group...)
             character = first(intersection)
 
-            total += compute_value(character)
+            total_2 += compute_value(character)
             group = []
         end
     end
-    return total
+
+    return total_1, total_2
 end
+
 
 file_name = "data/03.txt"
 
 file = open(file_name, "r")
-println("Part 1: ", part_1(file))
+total_1, total_2 = compute_totals(file)
 
-seekstart(file)
-println("Part 2: ", part_2(file))
-close(file)
+println("Part 1: ", total_1)
+println("Part 2: ", total_2)
