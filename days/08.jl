@@ -48,7 +48,7 @@ function viewing_distance(vector)
 
     for x in vector
         total += 1
-        if x == 0
+        if !x
             break
         end
     end
