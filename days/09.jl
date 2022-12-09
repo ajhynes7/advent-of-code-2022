@@ -1,8 +1,6 @@
 function move_knots(file, n_knots)
     knots = [[0, 0] for _ in 1:n_knots]
-
-    tails = Set()
-    push!(tails, copy(knots[end]))
+    tails = Set([[0, 0]])
 
     for line in readlines(file)
         split_ = split(line, ' ')
