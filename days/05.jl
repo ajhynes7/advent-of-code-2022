@@ -1,5 +1,6 @@
 using DataStructures
 
+
 function initialize_stacks()
     initial_stack_configs = [
         "FTCLRPGQ",
@@ -25,7 +26,7 @@ function initialize_stacks()
 end
 
 
-function move_crates(file, stacks)
+function move_crates(file::IOStream, stacks::AbstractVector{Stack{Char}})
     pattern = r"move (\d+) from (\d) to (\d)"
 
     stacks_2 = deepcopy(stacks)
@@ -58,7 +59,7 @@ function move_crates(file, stacks)
 end
 
 
-function get_stack_tops(stacks)
+function get_stack_tops(stacks::AbstractVector)
     tops = []
 
     for stack in stacks
@@ -67,6 +68,7 @@ function get_stack_tops(stacks)
 
     return tops
 end
+
 
 file = open("data/05.txt", "r")
 

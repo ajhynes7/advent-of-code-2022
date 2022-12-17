@@ -1,4 +1,4 @@
-function parts_1_and_2(file)
+function parts_1_and_2(file::IOStream)
     count_1, count_2 = 0, 0
 
     for line in readlines(file)
@@ -27,6 +27,7 @@ function parts_1_and_2(file)
 
     return count_1, count_2
 end
+
 
 file_name = "data/04.txt"
 file = open(file_name, "r")

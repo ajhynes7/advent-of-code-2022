@@ -1,6 +1,8 @@
 using DataStructures
 
-function process_datastream(file, queue_capacity)
+
+function process_datastream(file::IOStream, queue_capacity::Int)
+
     circular_queue = CircularDeque{Char}(queue_capacity)
 
     for (i, character) in enumerate(read(file, String))
@@ -14,6 +16,7 @@ function process_datastream(file, queue_capacity)
         end
     end
 end
+
 
 file = open("data/06.txt", "r")
 index_1 = process_datastream(file, 4)

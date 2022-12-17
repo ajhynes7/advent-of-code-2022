@@ -1,4 +1,4 @@
-function count_calories(file)
+function count_calories(file::IOStream)
     calories = [0]
 
     for line in readlines(file)

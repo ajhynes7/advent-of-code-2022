@@ -1,7 +1,7 @@
 using Plots
 
 
-function execute_program(file)
+function execute_program(file::IOStream)
     cycle = 0
     x = 1
 
@@ -30,14 +30,14 @@ function execute_program(file)
 end
 
 
-function update_strengths!(strengths, cycle, x)
+function update_strengths!(strengths::AbstractVector, cycle::Int, x::Int)
     if (cycle - 20) % 40 == 0
         push!(strengths, cycle * x)
     end
 end
 
 
-function update_crt!(crt, cycle, x)
+function update_crt!(crt::AbstractMatrix, cycle::Int, x::Int)
     _, width = size(crt)
 
     index = cycle - 1
@@ -49,7 +49,7 @@ function update_crt!(crt, cycle, x)
 end
 
 
-function get_row_and_column(width, index)
+function get_row_and_column(width::Int, index::Int)
     row = floor(Int, index / width)
     column = index % width
 

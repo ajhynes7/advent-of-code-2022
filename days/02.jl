@@ -3,7 +3,7 @@ using DataFrames
 
 victor_of = Dict('A' => 'B', 'B' => 'C', 'C' => 'A')
 
-function compute_outcome_score(move_1, move_2)
+function compute_outcome_score(move_1::Char, move_2::Char)
     if move_1 == move_2
         return 3
     end
@@ -14,13 +14,13 @@ function compute_outcome_score(move_1, move_2)
 end
 
 
-function compute_game_score(move_1, move_2)
+function compute_game_score(move_1::Char, move_2::Char)
     shape_score = Dict('A' => 1, 'B' => 2, 'C' => 3)
     return shape_score[move_1] + compute_outcome_score(move_1, move_2)
 end
 
 
-function decide_move_of_part_2(opponent, strategy)
+function decide_move_of_part_2(opponent::Char, strategy::Char)
     loser_of = Dict(victor_of[k] => k for k in keys(victor_of))
 
     if strategy == 'X'
@@ -40,7 +40,7 @@ function decide_move_of_part_2(opponent, strategy)
 end
 
 
-function compute_total_scores(file)
+function compute_total_scores(file::IOStream)
     strategy_map = Dict('X' => 'A', 'Y' => 'B', 'Z' => 'C')
     total_score_1, total_score_2 = 0, 0
 

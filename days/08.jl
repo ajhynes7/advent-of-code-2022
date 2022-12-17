@@ -1,4 +1,4 @@
-function construct_grid(file)
+function construct_grid(file::IOStream)
     rows = []
 
     for line in readlines(file)
@@ -9,7 +9,7 @@ function construct_grid(file)
 end
 
 
-function analyze_trees(grid)
+function analyze_trees(grid::AbstractMatrix)
     n_rows, n_cols = size(grid)
     n_visible = 0
     scores = []
@@ -43,7 +43,7 @@ function analyze_trees(grid)
 end
 
 
-function viewing_distance(vector)
+function viewing_distance(vector::AbstractVector)
     total = 0
 
     for x in vector

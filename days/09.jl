@@ -1,4 +1,4 @@
-function move_knots(file, n_knots)
+function move_knots(file::IOStream, n_knots::Int)
     knots = [[0, 0] for _ in 1:n_knots]
     tails = Set([[0, 0]])
 
@@ -35,7 +35,7 @@ function move_knots(file, n_knots)
 end
 
 
-function move_tail!(head, tail)
+function move_tail!(head::AbstractVector, tail::AbstractVector)
     diff = head - tail
 
     if any(abs.(diff) .>= 2)

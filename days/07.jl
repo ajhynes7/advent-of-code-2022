@@ -2,7 +2,7 @@
 using DataStructures
 
 
-function compute_sizes(file)
+function compute_sizes(file::IOStream)
     sizes = DefaultDict(0)
     path_vector = String[]
 
@@ -36,7 +36,7 @@ function compute_sizes(file)
 end
 
 
-function compute_answers(sizes)
+function compute_answers(sizes::AbstractDict)
     total_1 = 0
     total_2 = 100_000_000
 

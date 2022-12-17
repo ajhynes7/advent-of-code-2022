@@ -1,4 +1,4 @@
-function compute_value(character)
+function compute_value(character::Char)
     if isuppercase(character)
         value = Int(lowercase(character)) - 96 + 26
     else
@@ -7,7 +7,7 @@ function compute_value(character)
     return value
 end
 
-function compute_totals(file)
+function compute_totals(file::IOStream)
     total_1, total_2 = 0, 0
     group = []
 

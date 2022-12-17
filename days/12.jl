@@ -3,7 +3,7 @@ using Graphs.Experimental.ShortestPaths
 using Images
 
 
-function construct_grid(file)
+function construct_grid(file::IOStream)
     rows = []
 
     for line in readlines(file)
@@ -14,12 +14,12 @@ function construct_grid(file)
 end
 
 
-function get_index(i, j, n_cols)
+function get_index(i::Int, j::Int, n_cols::Int)
     (i - 1) * n_cols + j
 end
 
 
-function construct_graph(grid)
+function construct_graph(grid::AbstractMatrix)
 
     padded = padarray(grid, Pad(:replicate, 1, 1))
 
@@ -67,7 +67,7 @@ function construct_graph(grid)
 end
 
 
-function shortest_number_of_steps(file)
+function shortest_number_of_steps(file::IOStream)
 
     grid = construct_grid(file)
 

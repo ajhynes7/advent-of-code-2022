@@ -59,7 +59,7 @@ function initialize_monkeys(file::IOStream)
 end
 
 
-function throw_items!(monkeys::Vector{Monkey}, n_rounds::Int, part::Int)
+function throw_items!(monkeys::AbstractVector{Monkey}, n_rounds::Int, part::Int)
     n_monkeys = length(monkeys)
     counts = zeros(Int, n_monkeys)
 
