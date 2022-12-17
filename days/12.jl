@@ -15,7 +15,7 @@ end
 
 
 function get_index(i, j, n_cols)
-    (i - 1) * n_cols + j - 1
+    (i - 1) * n_cols + j
 end
 
 
@@ -43,22 +43,22 @@ function construct_graph(grid)
 
             if padded[i-1, j] - padded[i, j] <= 1
                 node_v = get_index(i - 1, j, n_cols)
-                add_edge!(graph, node_u + 1, node_v + 1)
+                add_edge!(graph, node_u, node_v)
             end
 
             if padded[i+1, j] - padded[i, j] <= 1
                 node_v = get_index(i + 1, j, n_cols)
-                add_edge!(graph, node_u + 1, node_v + 1)
+                add_edge!(graph, node_u, node_v)
             end
 
             if padded[i, j-1] - padded[i, j] <= 1
                 node_v = get_index(i, j - 1, n_cols)
-                add_edge!(graph, node_u + 1, node_v + 1)
+                add_edge!(graph, node_u, node_v)
             end
 
             if padded[i, j+1] - padded[i, j] <= 1
                 node_v = get_index(i, j + 1, n_cols)
-                add_edge!(graph, node_u + 1, node_v + 1)
+                add_edge!(graph, node_u, node_v)
             end
         end
     end
@@ -82,8 +82,8 @@ function shortest_number_of_steps(file)
     graph = construct_graph(grid)
 
     n_cols = size(grid)[2]
-    source = get_index(index_start[2], index_start[1], n_cols) + 1
-    target = get_index(index_end[2], index_end[1], n_cols) + 1
+    source = get_index(index_start[2], index_start[1], n_cols)
+    target = get_index(index_end[2], index_end[1], n_cols)
 
     result = dijkstra_shortest_paths(graph, source)
     result.dists[target]
