@@ -1,17 +1,18 @@
 mutable struct Monkey
-    items
-    operation
-    test
-    throw_to_monkey
+    items::Vector{Int}
+    operation::Function
+    divisor::Int
+    test::Function
+    throw_to_monkey::Dict
 
-    function Monkey(items=nothing, operation=nothing, test=nothing, throw_to_monkey=nothing)
-        return new(items, operation, test, throw_to_monkey)
+    function Monkey()
+        return new([], x -> x, 1, x -> x, Dict())
     end
 end
 
-function initialize_monkeys(file)
+
+function initialize_monkeys(file::IOStream)
     monkeys = Monkey[]
-    throw_to_monkey = Dict()
 
     patterns = [
         r"Monkey (\d+)",
@@ -28,7 +29,6 @@ function initialize_monkeys(file)
             if !isnothing(regex_match)
                 if i == 1
                     push!(monkeys, Monkey())
-                    throw_to_monkey = Dict()
 
                 elseif i == 2
                     starting_items = parse.(Int, split(regex_match[1], ","))
@@ -39,15 +39,16 @@ function initialize_monkeys(file)
                     monkeys[end].operation = operation
 
                 elseif i == 4
-                    number = parse(Int, regex_match[1])
-                    test = (x) -> x % number == 0
+                    divisor = parse(Int, regex_match[1])
+                    test = (x) -> x % divisor == 0
+
+                    monkeys[end].divisor = divisor
                     monkeys[end].test = test
 
                 elseif i == 5
                     boolean = parse(Bool, regex_match[1])
                     target_monkey = parse(Int, regex_match[2])
-                    throw_to_monkey[boolean] = target_monkey
-                    monkeys[end].throw_to_monkey = throw_to_monkey
+                    monkeys[end].throw_to_monkey[boolean] = target_monkey
 
                 end
             end
@@ -58,11 +59,11 @@ function initialize_monkeys(file)
 end
 
 
-
-function throw_items!(monkeys, n_rounds)
-
+function throw_items!(monkeys::Vector{Monkey}, n_rounds::Int, part::Int)
     n_monkeys = length(monkeys)
     counts = zeros(Int, n_monkeys)
+
+    modular_base = prod([monkey.divisor for monkey in monkeys])
 
     for _ = 1:n_rounds
         for i = 1:n_monkeys
@@ -70,15 +71,22 @@ function throw_items!(monkeys, n_rounds)
 
             for item in monkey.items
                 counts[i] += 1
+                worry_level = Base.invokelatest(monkey.operation, item)
 
-                worry_level = monkey.operation(item)
-                worry_level = floor(Int, worry_level / 3)
+                if part == 1
+                    worry_level = floor(Int, worry_level / 3)
+                elseif part == 2
+                    worry_level = worry_level % modular_base
+                else
+                    error()
+                end
 
                 test_value = monkey.test(worry_level)
                 target = monkey.throw_to_monkey[test_value]
 
                 push!(monkeys[target+1].items, worry_level)
             end
+
             monkey.items = []
         end
     end
@@ -87,12 +95,21 @@ function throw_items!(monkeys, n_rounds)
 end
 
 
+function monkey_business(file::IOStream, n_rounds::Int, part::Int)
+    monkeys = initialize_monkeys(file)
+
+    counts = throw_items!(monkeys, n_rounds, part)
+    sort!(counts, rev=true)
+
+    prod(counts[1:2])
+end
+
+
 file = open("data/11.txt")
+answer_1 = monkey_business(file, 20, 1)
 
-monkeys = initialize_monkeys(file)
-counts = throw_items!(monkeys, 20)
+seekstart(file)
+answer_2 = monkey_business(file, 10000, 2)
 
-sort!(counts, rev=true)
-monkey_business = prod(counts[1:2])
-
-println("Part 1: ", monkey_business)
+println("Part 1: ", answer_1)
+println("Part 1: ", answer_2)
