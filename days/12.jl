@@ -1,6 +1,6 @@
 using Graphs
-using Images
 using Graphs.Experimental.ShortestPaths
+using Images
 
 
 function construct_grid(file)
@@ -14,8 +14,8 @@ function construct_grid(file)
 end
 
 
-function get_index(i, j, n_cols) 
-    (i-1) * n_cols + j-1
+function get_index(i, j, n_cols)
+    (i - 1) * n_cols + j - 1
 end
 
 
@@ -31,7 +31,7 @@ function construct_graph(grid)
     graph = SimpleDiGraph()
 
     for i = 1:length(grid)
-       add_vertex!(graph) 
+        add_vertex!(graph)
     end
 
     n_rows, n_cols = size(grid)
@@ -39,26 +39,26 @@ function construct_graph(grid)
     for i = 1:n_rows
         for j = 1:n_cols
 
-            node_u = get_index(i, j, n_cols)  
+            node_u = get_index(i, j, n_cols)
 
             if padded[i-1, j] - padded[i, j] <= 1
-                node_v = get_index(i-1, j, n_cols) 
-                add_edge!(graph, node_u+1, node_v+1)
+                node_v = get_index(i - 1, j, n_cols)
+                add_edge!(graph, node_u + 1, node_v + 1)
             end
 
             if padded[i+1, j] - padded[i, j] <= 1
-                node_v = get_index(i+1, j, n_cols) 
-                add_edge!(graph, node_u+1, node_v+1)
+                node_v = get_index(i + 1, j, n_cols)
+                add_edge!(graph, node_u + 1, node_v + 1)
             end
 
-            if padded[i, j-1] - padded[i, j]  <= 1
-                node_v = get_index(i, j-1, n_cols) 
-                add_edge!(graph, node_u+1, node_v+1)
+            if padded[i, j-1] - padded[i, j] <= 1
+                node_v = get_index(i, j - 1, n_cols)
+                add_edge!(graph, node_u + 1, node_v + 1)
             end
 
             if padded[i, j+1] - padded[i, j] <= 1
-                node_v = get_index(i, j+1, n_cols) 
-                add_edge!(graph, node_u+1, node_v+1)
+                node_v = get_index(i, j + 1, n_cols)
+                add_edge!(graph, node_u + 1, node_v + 1)
             end
         end
     end
@@ -75,7 +75,7 @@ function shortest_number_of_steps(file)
     index_end = findall(x -> x == 'E', grid)[1]
 
     grid[index_start] = 'a'
-    grid[index_end] = 'z' 
+    grid[index_end] = 'z'
 
     grid = transpose(Int.(grid))
 
