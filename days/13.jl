@@ -1,21 +1,15 @@
+using JSON
 
 
 function read_packets(file)
-    pair = []
+
+    file_string = read(file, String)
+    string_pairs = split(file_string, "\n\n")
+
     packet_pairs = []
 
-    for line in readlines(file)
-        if isempty(line)
-            continue
-        end
-
-        vector = Meta.parse(line) |> eval
-        push!(pair, vector)
-
-        if length(pair) == 2
-            push!(packet_pairs, pair)
-            pair = []
-        end
+    for pair in string_pairs
+        push!(packet_pairs, map(JSON.parse, split(pair, "\n")))
     end
 
     packet_pairs
