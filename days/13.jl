@@ -29,33 +29,38 @@ function in_order(left, right)
 
         while true
             if index > length_l
+                if length_l == length_r
+                    return 0
+                end
                 # Left ran out of items first.
-                return true
+                return -1
             end
             if index > length_r
                 # Right ran out of items first.
-                return false
+                return 1
             end
 
             ordered = in_order(left[index], right[index])
 
-            if !isnothing(ordered)
+            if ordered != 0
                 return ordered
             end
 
             index += 1
         end
 
-        return true
+        return -1
     end
 
     if left isa Int && right isa Int
 
-        if left == right
-            return
+        if left < right
+            return -1
         end
-
-        return left < right
+        if left == right
+            return 0
+        end
+        return 1
     end
 
     if left isa Vector && right isa Int
@@ -73,7 +78,7 @@ function compute_total(packet_pairs)
     total = 0
 
     for (i, pair) in enumerate(packet_pairs)
-        if in_order(pair...)
+        if in_order(pair...) == -1
             total += i
         end
     end
