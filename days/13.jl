@@ -20,55 +20,31 @@ function read_packets(file)
 end
 
 
-function in_order(left, right)
-
-    if left isa Vector && right isa Vector
-        index = 1
-        length_l = length(left)
-        length_r = length(right)
-
-        while true
-            if index > length_l
-                if length_l == length_r
-                    return 0
-                end
-                # Left ran out of items first.
-                return -1
-            end
-            if index > length_r
-                # Right ran out of items first.
-                return 1
-            end
-
-            ordered = in_order(left[index], right[index])
-
-            if ordered != 0
-                return ordered
-            end
-
-            index += 1
-        end
-
-        return -1
-    end
+function compare(left, right)
 
     if left isa Int && right isa Int
-
-        if left < right
-            return -1
-        end
-        if left == right
-            return 0
-        end
-        return 1
+        return sign(left - right)
     end
 
     if left isa Vector && right isa Int
-        return in_order(left, [right])
+        return compare(left, [right])
     end
 
     if left isa Int && right isa Vector
-        return in_order([left], right)
+        return compare([left], right)
+    end
+
+    if left isa Vector && right isa Vector
+
+        for (a, b) in zip(left, right)
+            comparison = compare(a, b)
+
+            if comparison != 0
+                return comparison
+            end
+        end
+
+        return sign(length(left) - length(right))
     end
 
 end
@@ -78,7 +54,7 @@ function compute_total(packet_pairs)
     total = 0
 
     for (i, pair) in enumerate(packet_pairs)
-        if in_order(pair...) == -1
+        if compare(pair...) == -1
             total += i
         end
     end
