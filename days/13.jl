@@ -5,15 +5,17 @@ function read_packets(file)
     packet_pairs = []
 
     for line in readlines(file)
-
         if isempty(line)
-            push!(packet_pairs, pair)
-            pair = []
             continue
         end
 
         vector = Meta.parse(line) |> eval
         push!(pair, vector)
+
+        if length(pair) == 2
+            push!(packet_pairs, pair)
+            pair = []
+        end
     end
 
     packet_pairs
